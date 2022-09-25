@@ -1,7 +1,7 @@
 module Project4
 
 using Logging
-Logging.disable_logging(Logging.Info)
+Logging.disable_logging(Logging.Warn)
 
 using WGLMakie
 using Images 
