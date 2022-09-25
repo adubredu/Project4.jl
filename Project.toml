@@ -3,6 +3,14 @@ uuid = "ecc53ea5-793d-4987-87f3-cc5cc30d7aac"
 authors = ["Alphonsus Adu-Bredu"]
 version = "0.1.0"
 
+[deps]
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+FileIO = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
+Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
+Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
+WGLMakie = "276b4fcb-3e11-5398-bf8b-a0c2d153d008"
+
 [compat]
 julia = "1"
 

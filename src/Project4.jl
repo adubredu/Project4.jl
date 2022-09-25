@@ -1,5 +1,15 @@
 module Project4
 
-# Write your package code here.
+using Logging
+Logging.disable_logging(Logging.Info)
 
+using WGLMakie
+using Images 
+using FileIO
+ 
+include("load.jl")
+include("visualize.jl")
+
+export visualize!,
+       load_images
 end
