@@ -1,11 +1,11 @@
 module Project4
 
-using Logging
-Logging.disable_logging(Logging.Warn)
-
-using WGLMakie
-using Images 
-using FileIO
+using Suppressor
+# @suppress begin 
+    using WGLMakie 
+    using Images 
+    using FileIO
+# end
  
 include("load.jl")
 include("visualize.jl")
