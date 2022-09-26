@@ -15,6 +15,7 @@ Suppressor = "fd094767-a336-5f1f-9728-57cf17d0bbfb"
 WGLMakie = "276b4fcb-3e11-5398-bf8b-a0c2d153d008"
 
 [compat]
+Images = "0.25"
 julia = "1"
 
 [extras]
