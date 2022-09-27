@@ -37,17 +37,13 @@ function visualize!(calib_data; show_name=false)
     image_title = Observable("image01")
     if show_name text!(scene, image_title, position=(587,53), color=:red, space=:data) end
     points = Observable(Point2f[])
-    scatter!(scene, points, color=:purple)
-    # scatter!(scene, [600],[60], marker=:rect, markersize=(220,50))
+    scatter!(scene, points, color=:purple) 
 
     on(buttons[2].clicks) do i
         index = index > 1 ? index-1 : index
         frame[] = rotr90(images[index])
         image_title[] = "image0$index"
-        points[] = calib_data.viz_image_points[image_title[]]   
-        # image_title[]=image_title[]
-        # scatter!(scene, [600],[60], marker=:rect, markersize=(200,100))
-        # if show_name text!(scene, image_title, position=(587,53), color=:red, space=:data) end
+        points[] = calib_data.viz_image_points[image_title[]] 
         
     end
 
@@ -55,11 +51,7 @@ function visualize!(calib_data; show_name=false)
         index = index < length(images) ? index+1 : index
         frame[] = rotr90(images[index])
         image_title[] = "image0$index"
-        points[] = calib_data.viz_image_points[image_title[]] 
-        # image_title[]=image_title[]
-        # scatter!(scene, [600],[60], marker=:rect, markersize=(200,100))
-        # if show_name text!(scene, image_title, position=(587,53), color=:red, space=:data) end
-
+        points[] = calib_data.viz_image_points[image_title[]]  
     end 
 
     on(buttons[4].clicks) do i 
@@ -77,6 +69,7 @@ function visualize!(calib_data; show_name=false)
         end
         @show length(points[])
     end 
+    
     on(events(scene).mousebutton) do event 
         if event.button == Mouse.left || event.button == Mouse.right
             if event.action == Mouse.press
