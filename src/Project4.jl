@@ -2,7 +2,7 @@ module Project4
 
 using Suppressor
 # @suppress begin 
-    using GLMakie 
+    using WGLMakie  
     using Images 
     using FileIO
 # end

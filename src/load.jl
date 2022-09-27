@@ -13,3 +13,10 @@ function load_images!(calib_data; path=nothing, names=[])
     end
     calib_data.images = images 
 end
+
+function post_process!(calib_data)
+    for name in keys(calib_data.image_points)
+        deleteat!(calib_data.image_points[name], findall(x->x==(0,0), calib_data.image_points[name]))
+        deleteat!(calib_data.viz_image_points[name], findall(x->x==(0,0), calib_data.viz_image_points[name])) 
+    end
+end

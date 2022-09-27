@@ -6,4 +6,4 @@ end
 
 calib_data = CalibrationData()
 images = load_images!(calib_data)
-visualize!(calib_data)
+visualize!(calib_data; show_name=true)
