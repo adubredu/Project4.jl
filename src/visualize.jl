@@ -6,8 +6,16 @@ function add_buttons!(scene)
     return buttons
 end
 
+function populate_dicts!(calib_data)
+    for i=1:length(calib_data.images)
+        name = "image0$i"
+        calib_data.image_points[name]=[]
+    end
+end
+
 
 function visualize!(calib_data)
+    populate_dicts!(calib_data)
     images = calib_data.images
     scene = Scene(camera = campixel!)
     buttons = add_buttons!(scene) 
@@ -23,15 +31,18 @@ function visualize!(calib_data)
         index = index > 1 ? index-1 : index
         frame[] = rotr90(images[index])
         image_title[] = "image0$index"
+        points[] = calib_data.image_points[image_title[]]
     end
     on(buttons[3].clicks) do i
         index = index < length(images) ? index+1 : index
         frame[] = rotr90(images[index])
         image_title[] = "image0$index"
+        points[] = calib_data.image_points[image_title[]]
     end 
     on(buttons[4].clicks) do i 
         if !isempty(points[])
             pop!(points[])
+            pop!(calib_data.image_points[image_title[]])
             points[]=points[] 
         end
         @show length(points[])
@@ -42,6 +53,7 @@ function visualize!(calib_data)
                 mp = events(scene).mouseposition[]
                 @show mp
                 push!(points[], mp)
+                push!(calib_data.image_points[image_title[]], mp)
                 notify(points)
             end
         end
