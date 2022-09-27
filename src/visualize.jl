@@ -10,6 +10,7 @@ function populate_dicts!(calib_data)
     for i=1:length(calib_data.images)
         name = "image0$i"
         calib_data.image_points[name]=[]
+        calib_data.viz_image_points[name]=[]
     end
 end
 
@@ -28,7 +29,7 @@ end
 function visualize!(calib_data)
     populate_dicts!(calib_data)
     images = calib_data.images
-    scene = Scene(camera = campixel!)
+    scene = Scene(resolution=reverse(size(images[1])), camera = campixel!)
     buttons = add_buttons!(scene) 
     index = 1
     frame = Observable(rotr90(images[index]))
@@ -42,21 +43,22 @@ function visualize!(calib_data)
         index = index > 1 ? index-1 : index
         frame[] = rotr90(images[index])
         image_title[] = "image0$index"
-        points[] = calib_data.image_points[image_title[]]
+        points[] = calib_data.viz_image_points[image_title[]]
     end
     on(buttons[3].clicks) do i
         index = index < length(images) ? index+1 : index
         frame[] = rotr90(images[index])
         image_title[] = "image0$index"
-        points[] = calib_data.image_points[image_title[]]
+        points[] = calib_data.viz_image_points[image_title[]]
     end 
     on(buttons[4].clicks) do i 
         if !isempty(points[])
             pop!(points[])
+            pop!(calib_data.viz_image_points[image_title[]])
             pop!(calib_data.image_points[image_title[]])
             points[]=points[] 
         end
-        @show length(points[])
+        # @show length(points[])
     end 
     on(events(scene).mousebutton) do event 
         if event.button == Mouse.left || event.button == Mouse.right
@@ -64,19 +66,21 @@ function visualize!(calib_data)
                 mp = events(scene).mouseposition[]
                 offset = size(frame[])
                 op = rotate_frame(mp, offset)
-                @show mp
+                @show op
                 push!(points[], mp)
-                push!(calib_data.image_points[image_title[]], mp)
+                push!(calib_data.image_points[image_title[]], op)
+                push!(calib_data.viz_image_points[image_title[]], mp)
                 notify(points)
             end
         end
     end
-    on(events(scene).mouseposition) do mp
-        # @show mp
-        offset = size(frame[])
-        op = rotate_frame(mp, offset)
-        @show op
-    end
-    display(scene)
+    # on(events(scene).mouseposition) do mp
+    #     # @show mp
+    #     offset = size(frame[])
+    #     op = rotate_frame(mp, offset)
+    #     @show op
+    # end
+    screen = display(scene)
+    # resize!(screen, size(frame[])...)
     # return scene
 end
