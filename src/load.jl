@@ -1,4 +1,4 @@
-function load_images(;path=nothing, names=[]) 
+function load_images!(calib_data; path=nothing, names=[]) 
     path = isnothing(path) ? path = "images/" : path 
     path = joinpath(@__DIR__, path)
     images = []
@@ -11,5 +11,5 @@ function load_images(;path=nothing, names=[])
             push!(images, load(joinpath(path, name)))
         end
     end
-    return images 
+    calib_data.images = images 
 end

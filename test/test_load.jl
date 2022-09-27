@@ -4,5 +4,6 @@ using Suppressor
     using Project4 
 end 
 
-images = load_images()
-visualize!(images)
+calib_data = CalibrationData()
+images = load_images!(calib_data)
+visualize!(calib_data)
