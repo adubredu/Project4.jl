@@ -13,6 +13,17 @@ function populate_dicts!(calib_data)
     end
 end
 
+function rotate_frame(point, offset; θ=π)
+    R = [
+        1.0  0.0    0.0;
+        0.0 cos(θ) -sin(θ);
+        0.0 sin(θ) cos(θ)
+        ]
+    p = [point..., 0]
+    tp = R*p 
+    tp[2] += offset[2]
+    return Tuple(tp[1:2])
+end
 
 function visualize!(calib_data)
     populate_dicts!(calib_data)
@@ -51,6 +62,8 @@ function visualize!(calib_data)
         if event.button == Mouse.left || event.button == Mouse.right
             if event.action == Mouse.press
                 mp = events(scene).mouseposition[]
+                offset = size(frame[])
+                op = rotate_frame(mp, offset)
                 @show mp
                 push!(points[], mp)
                 push!(calib_data.image_points[image_title[]], mp)
@@ -58,9 +71,12 @@ function visualize!(calib_data)
             end
         end
     end
-    # on(events(scene).mouseposition) do mp
-    #     @show mp
-    # end
+    on(events(scene).mouseposition) do mp
+        # @show mp
+        offset = size(frame[])
+        op = rotate_frame(mp, offset)
+        @show op
+    end
     display(scene)
     # return scene
 end
